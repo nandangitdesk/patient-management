@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients Management</title>
+    <link href="/styles.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="https://img.icons8.com/cute-clipart/64/samsung-health.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-r from-blue-100 to-teal-100 font-['Poppins']">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-blue-600 mb-4 sm:mb-0">Patient Management System</h1>
+            <a href="/auth/logout" class="bg-red-500 text-white px-4 sm:px-6 py-2 rounded-full hover:bg-red-600 transition duration-300 shadow-md text-sm sm:text-base">Logout</a>
+        </header>
+
+        <!-- Create a new patient form -->
+        <div class="bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow-2xl mb-8">
+            <h2 class="text-xl sm:text-2xl font-bold mb-6 text-blue-600">Add New Patient</h2>
+            <form action="/patients/create" method="POST" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Name</label>
+                        <input type="text" name="name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Age</label>
+                        <input type="number" name="age" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Disease</label>
+                        <input type="text" name="disease" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Doctor</label>
+                        <input type="text" name="doctor" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Treatment Plan</label>
+                    <textarea name="treatmentPlan" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"></textarea>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Medications (comma-separated)</label>
+                        <input type="text" name="medications" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Allergies (comma-separated)</label>
+                        <input type="text" name="allergies" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Medical History</label>
+                    <textarea name="medicalHistory" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"></textarea>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Emergency Contact</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <input type="text" name="emergencyContact[name]" placeholder="Name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+                        <input type="text" name="emergencyContact[relationship]" placeholder="Relationship" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+                        <input type="text" name="emergencyContact[phone]" placeholder="Phone" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition duration-300 shadow-md">Add Patient</button>
+            </form>
+        </div>
+
+        <!-- List of patients -->
+        <div>
+            <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-blue-600">Existing Patients</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <% patients.forEach(patient => { %>
+                    <div class="bg-white p-4 sm:p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+                        <h3 class="text-lg sm:text-xl font-semibold mb-4 text-blue-600"><%= patient.name %></h3>
+                        <div class="space-y-2 mb-4 text-sm sm:text-base">
+                            <p><span class="font-bold text-gray-700">Age:</span> <%= patient.age %></p>
+                            <p><span class="font-bold text-gray-700">Disease:</span> <%= patient.disease %></p>
+                            <p><span class="font-bold text-gray-700">Doctor:</span> <%= patient.doctor %></p>
+                            <p><span class="font-bold text-gray-700">Treatment Plan:</span> <%= patient.treatmentPlan || 'N/A' %></p>
+                            <p><span class="font-bold text-gray-700">Medications:</span> <%= patient.medications.join(', ') || 'None' %></p>
+                            <p><span class="font-bold text-gray-700">Allergies:</span> <%= patient.allergies.join(', ') || 'None' %></p>
+                            <p><span class="font-bold text-gray-700">Admission Date:</span> <%= patient.admissionDate ? new Date(patient.admissionDate).toLocaleDateString() : 'N/A' %></p>
+                            <p><span class="font-bold text-gray-700">Discharge Date:</span> <%= patient.dischargeDate ? new Date(patient.dischargeDate).toLocaleDateString() : 'N/A' %></p>
+                            <p><span class="font-bold text-gray-700">Medical History:</span> <%= patient.medicalHistory || 'N/A' %></p>
+                            <p><span class="font-bold text-gray-700">Emergency Contact:</span> <%= patient.emergencyContact ? `${patient.emergencyContact.name} (${patient.emergencyContact.relationship}) - ${patient.emergencyContact.phone}` : 'N/A' %></p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                            <a href="/patients/edit/<%= patient._id %>" class="flex-1 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition duration-300 text-center text-sm sm:text-base">Edit</a>
+                            <a href="/patients/delete/<%= patient._id %>" class="flex-1 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-300 text-center text-sm sm:text-base">Delete</a>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
